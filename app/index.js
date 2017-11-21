@@ -22,7 +22,10 @@ module.exports = class extends Generator {
   }
 
   writing(){
-    this.fs.copy(
+    if(this.fs.exists(this.destinationPath('test.txt'))){
+      this.fs.delete(this.destinationPath('test.txt'))
+    }
+    this.fs.copyTpl(
       this.templatePath('test.txt'),
       this.destinationPath('test.txt'),
       { title: 'Templating with Yeoman test.txt' }

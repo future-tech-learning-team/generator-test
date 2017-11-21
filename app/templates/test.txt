@@ -1,2 +1,2 @@
-test txt
+
 <title><%= title %></title>
