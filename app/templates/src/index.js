@@ -4,7 +4,7 @@
 export default {
   setWidth(w){
   const maps = ['w', 's', 'y', 'x'];
-   const index = maps.indexOf((item) => { w === item });
+   const index = maps.findIndex((item) => { w === item });
     return index;
 }
 }

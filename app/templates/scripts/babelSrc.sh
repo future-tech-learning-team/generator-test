@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 rmbuild(){
-    if [ ! -d "build/backup" ];then
-        mkdir build/backup
+    if [ ! -d "build" ];then
+        mkdir build
     fi
 otherFile=`ls build/* |wc -w`
  if [ "$otherFile" -gt "0" ];then
