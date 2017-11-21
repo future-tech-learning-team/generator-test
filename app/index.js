@@ -9,7 +9,11 @@ module.exports = class extends Generator {
     super(args, opts);
 
     // 添加你自己的option
-    this.option('babel'); // This method adds support for a `--babel` flag
+    this.option('inputname', {
+      type: String,
+      desc: 'your app name',
+      defaults: 'test-app'
+    }); // This method adds support for a `--babel` flag
   }
 
   method1() {
@@ -22,18 +26,24 @@ module.exports = class extends Generator {
   }
 
   writing(){
-    if(this.fs.exists(this.destinationPath('test.txt'))){
-      this.fs.delete(this.destinationPath('test.txt'))
-    }
-    this.fs.copyTpl(
-      this.templatePath('test.txt'),
-      this.destinationPath('test.txt'),
-      { title: 'Templating with Yeoman test.txt' }
-    );
+    this._private_copyFile('test.txt',{title: 'Templating with Yeoman test.txt' });
+    this._private_copyFile('package.json',{appname: this.options.inputname});
+    this._private_copyFile('.babelrc',{}); // Babel 转码配置
+    this._private_copyFile('./scripts/babelSrc.sh',{});
+    //this._private_copyFile('./build/',{});
+    this._private_copyFile('./src/index.js',{});
   }
 
-  _private_method() { // 私有方法，不会自动执行
-    console.log('private hey');
+  _private_copyFile(fileName,template) { // 私有方法，不会自动执行
+    console.log('copyFile');
+    if(this.fs.exists(this.destinationPath(fileName))){
+      this.fs.delete(this.destinationPath(fileName))
+    }
+    this.fs.copyTpl(
+      this.templatePath(fileName),
+      this.destinationPath(fileName),
+      template
+    );
 
   }
 

@@ -4,7 +4,8 @@
   "description": "babel generator",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sh ./scripts/babelSrc.sh"
   },
   "repository": {
     "type": "git",
@@ -15,11 +16,19 @@
   ],
   "author": "",
   "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  },
   "bugs": {
     "url": "https://github.com/runma-learning-team/generator-test/issues"
   },
   "homepage": "https://github.com/runma-learning-team/generator-test#readme",
   "dependencies": {
-    "yeoman-generator": "^2.0.1"
+    "yeoman-generator": "^2.0.1",
+    "babel-cli": "^6.0.0"
   }
 }
