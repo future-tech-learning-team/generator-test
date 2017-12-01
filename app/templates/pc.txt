@@ -1,0 +1,2 @@
+
+<title>pc-<%= title %></title>
