@@ -1,5 +1,5 @@
 {
-  "name": "generator-test",
+  "name": "generator-syj-babel-test",
   "version": "1.0.0",
   "description": "babel generator",
   "main": "index.js",
