@@ -75,6 +75,7 @@ function travel(dir,out, callback) {
 
 function babelTransform(fileName) {
   babel.transformFile(fileName, {
+    babelrc: false,
     presets: ['env'],
     plugins: [
       "transform-runtime"
