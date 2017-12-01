@@ -87,7 +87,7 @@ module.exports = class extends Generator {
     this._private_copyFile('./src/pages/',{}); // 先建目录
     this._private_copyFile('./src/pages/home.js',{});
 
-
+    process.exit(0)
   }
 
   _private_copyFile(fileName,template) { // 私有方法，不会自动执行
