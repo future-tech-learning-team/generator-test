@@ -1,0 +1,20 @@
+{
+  "name": "pure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+   "build-cli": "babel src -d build",
+    "build": "node src/scripts/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "format-date": "^1.0.0",
+    "url-param-object": "^1.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
