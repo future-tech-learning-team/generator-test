@@ -31,8 +31,9 @@ const main = async () => {
     const version = semver.inc(packageJS.version, 'prerelease', 'beta');
     console.log('非master分支，只能提交beta版本');
 
-    await execa.shell(`npm version ${version} && npm publish`);
+    await execa.shell(`npm version ${version}`);
     console.log('已修改版本号为:', version);
+    await execa.shell('npm publish');
   }
 
 
