@@ -4,9 +4,9 @@
   "description": "babel generator",
   "main": "index.js",
   "scripts": {
-    "test": "node scripts/index.js",
+    "test": "",
     "build": "sh ./scripts/babelSrc.sh",
-    "publish": "npm test && npm publish"
+    "publish": "node scripts/index.js"
   },
   "repository": {
     "type": "git",
