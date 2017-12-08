@@ -8,14 +8,9 @@
     "email": "product188@126.com",
     "url": ""
   },
-  "files": [
-    "generators"
-  ],
+  "files": ["generators"],
   "main": "generators/index.js",
-  "keywords": [
-    "",
-    "yeoman-generator"
-  ],
+  "keywords": ["", "yeoman-generator"],
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "coveralls": "^2.13.1",
@@ -36,6 +31,8 @@
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "chalk": "^2.1.0",
+    "execa": "^0.8.0",
+    "git-branch": "^1.0.0",
     "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"
   },
@@ -43,26 +40,17 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "prepublish": "nsp check",
+    "dopublish": "node scripts/publish.js",
     "pretest": "eslint .",
     "precommit": "lint-staged",
     "test": "jest"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["eslint --fix", "git add"],
+    "*.json": ["prettier --write", "git add"]
   },
   "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
+    "extends": ["xo", "prettier"],
     "env": {
       "jest": true,
       "node": true
@@ -76,9 +64,7 @@
         }
       ]
     },
-    "plugins": [
-      "prettier"
-    ]
+    "plugins": ["prettier"]
   },
   "repository": "product188/generator-mypure",
   "license": "Apache-2.0"

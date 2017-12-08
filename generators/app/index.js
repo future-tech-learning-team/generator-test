@@ -4,19 +4,36 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
+    prompting() {
+        return this.prompt([{
+            type    : 'list',
+            name    : 'projectType',
+            message : '选择项目类型',
+            choices: ['pc', 'mobile'],
+            default : "pc"
+        }]).then((answers) => {
+            this.log('选择项目类型', answers.projectType);
+            this.projectType = answers.projectType;
+        });
+    }
   writing() {
+
     this.fs.copy(
-      this.templatePath('src'),
-      this.destinationPath('src')
+         this.templatePath('src'),
+         this.destinationPath('src')
     );
+
     this.fs.copy(
-      this.templatePath('package.json'),
-      this.destinationPath('package.json')
+         this.templatePath('package.json'),
+         this.destinationPath('package.json')
     );
-    this.fs.copy(
-      this.templatePath('webpack.prod.config.js'),
-      this.destinationPath('webpack.prod.config.js')
-    );
+
+     this.fs.copyTpl(
+          this.templatePath('index.html'),
+          this.destinationPath("index.html"),
+          {projectType:this.projectType}
+     );
+
   }
 
   install() {
