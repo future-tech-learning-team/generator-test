@@ -9,9 +9,10 @@ const branchName=branch.sync();
 console.log(branchName);
 
 //x.x.x-beta.x
+//0.0.0-beta.1
 
 var versionTest=/^\d\.\d\.\d-beta\.\d$/;
-if(branchName !== 'master' && !versionTest.test(package.version.test)){
+if(branchName !== 'master' && !versionTest.test(package.version)){
     console.log('非master分支，只能提交beta版本',"branchName",branchName,"version",package.version);
 }
 else{
