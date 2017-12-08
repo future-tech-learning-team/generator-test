@@ -2,7 +2,9 @@
  * Created by shiyunjie on 17/11/21.
  */
 const Generator = require('yeoman-generator');
-const fs = require('fs');
+//const fs = require('fs');
+const fs = require('fs-extra')
+
 module.exports = class extends Generator {
 
 
@@ -77,7 +79,16 @@ module.exports = class extends Generator {
         break;
     }
 
+    try {
+      fs.copySync('/tmp', this.destinationPath())
+      console.log('copy success!')
+    } catch (err) {
+      console.error(err)
+    }
+
     //this._private_copyFile('package.json',{appname: this.options.inputname});
+
+   /*
     this._private_copyFile('package.json',{appname: this.appName});
     this._private_copyFile('.babelrc',{}); // Babel 转码配置
     this._private_copyFile('./scripts/babelSrc.sh',{});
@@ -85,16 +96,17 @@ module.exports = class extends Generator {
     //this._private_copyFile('./build/',{});
     this._private_copyFile('./src/index.js',{});
     this._private_copyFile('./src/pages/',{}); // 先建目录
-    this._private_copyFile('./src/pages/home.js',{});
+    this._private_copyFile('./src/pages/home.js',{}); */
+
 
     process.exit(0)
   }
 
   _private_copyFile(fileName,template) { // 私有方法，不会自动执行
     console.log('copyFile');
-    if(this.fs.exists(this.destinationPath(fileName))){
-      this.fs.delete(this.destinationPath(fileName))
-    }
+    //if(this.fs.exists(this.destinationPath(fileName))){
+    //  this.fs.delete(this.destinationPath(fileName))
+    //}
     this.fs.copyTpl(
       this.templatePath(fileName),
       this.destinationPath(fileName),
