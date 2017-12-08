@@ -19,6 +19,9 @@ import execa from 'execa';
  */
 const main = async () => {
   console.log('test git Head')
+  const status = await execa.shell('git diff');
+  console.log(status)
+
   let msg = ''
   const result = await execa.shell('git symbolic-ref --short -q HEAD')
   //console.log(result);
@@ -31,9 +34,10 @@ const main = async () => {
     const version = semver.inc(packageJS.version, 'prerelease', 'beta');
     console.log('非master分支，只能提交beta版本');
 
-    await execa.shell(`npm version ${version}`);
+    //await execa.shell(`npm version ${version}`);
     console.log('已修改版本号为:', version);
-    await execa.shell('npm publish');
+    //await execa.shell('npm publish');
+    console.log(version,'已发布');
   }
 
 
