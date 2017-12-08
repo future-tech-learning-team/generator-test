@@ -22,6 +22,11 @@ const main = async () => {
   const status = await execa.shell('git diff');
   console.log(status)
 
+  if(status.stdout){
+    console.log('还有未提交内容，请提交后再发布')
+    process.exit(0);
+  }
+
   let msg = ''
   const result = await execa.shell('git symbolic-ref --short -q HEAD')
   //console.log(result);
