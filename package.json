@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "sh ./scripts/babelSrc.sh",
-    "publish": "node scripts/index.js"
+    "release": "node scripts/index.js"
   },
   "repository": {
     "type": "git",
