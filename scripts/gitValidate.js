@@ -23,26 +23,41 @@ const main = async () => {
   console.log(status)
 
   if(status.stdout){
-    console.log('还有未提交内容，请提交后再发布')
+    console.log('还有未提交内容，请提交后再发布');
     process.exit(0);
   }
 
   let msg = ''
-  const result = await execa.shell('git symbolic-ref --short -q HEAD')
+  const result = await execa.shell('git symbolic-ref --short -q HEAD');
   //console.log(result);
   if (!result.failed) {
     msg = result.stdout
   }
   //=> 'unicorns'
   console.log('msg', msg);
-  if (msg && msg !== 'master' && semver.valid(packageJS.version)) {
-    const version = semver.inc(packageJS.version, 'prerelease', 'beta');
-    console.log('非master分支，只能提交beta版本');
+  if (msg && msg !== 'master' && (semver.valid(packageJS.version) || semver.satisfies(packageJS.version,'*'))) {
 
-    //await execa.shell(`npm version ${version}`);
+    let version = semver.inc(packageJS.version, 'prerelease', 'beta');
+    if(packageJS.version.includes('alpha')){
+       version = semver.inc(packageJS.version, 'prerelease', 'alpha');
+
+    }else if(packageJS.version.includes('gamma')){
+      version = semver.inc(packageJS.version, 'prerelease', 'gamma');
+    }else if(packageJS.version.includes('rc')){
+      version = semver.inc(packageJS.version, 'prerelease', 'rc');
+    }
+
+    console.log('非master分支，只能提交beta版本',);
+
+    await execa.shell(`npm version ${version}`);
     console.log('已修改版本号为:', version);
-    //await execa.shell('npm publish');
+    await execa.shell('npm publish');
     console.log(version,'已发布');
+  } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
+    await execa.shell('npm publish');
+    console.log(packageJS.version, '已发布');
+  } else {
+    console.log('请修改版本号');
   }
 
 
@@ -83,6 +98,5 @@ const parseBranches = (str) => {
 const gitHeadpath = (cwd) => {
   return path.join(cwd || process.cwd(), '.git/HEAD');
 }
-
 
 main()

@@ -9,4 +9,4 @@ require('babel-register')({
     "transform-decorators-legacy"
   ]
 });
-require('./gitTest.js');
+require('./gitValidate.js');
