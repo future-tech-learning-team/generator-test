@@ -80,16 +80,16 @@ module.exports = class extends Generator {
     }
 
     try {
-      fs.copySync('/tmp', this.destinationPath())
+      fs.copySync(this.templatePath('tmp'), this.destinationPath())
       console.log('copy success!')
     } catch (err) {
       console.error(err)
     }
-
+    this._private_copyFile('package.json',{appname: this.appName});
     //this._private_copyFile('package.json',{appname: this.options.inputname});
 
    /*
-    this._private_copyFile('package.json',{appname: this.appName});
+
     this._private_copyFile('.babelrc',{}); // Babel 转码配置
     this._private_copyFile('./scripts/babelSrc.sh',{});
     this._private_copyFile('./scripts/babelTra.js',{});
@@ -107,10 +107,9 @@ module.exports = class extends Generator {
     //if(this.fs.exists(this.destinationPath(fileName))){
     //  this.fs.delete(this.destinationPath(fileName))
     //}
-    this.fs.copyTpl(
+    fs.copySync(
       this.templatePath(fileName),
       this.destinationPath(fileName),
-      template
     );
 
   }

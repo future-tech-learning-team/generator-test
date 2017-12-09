@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./scripts/index.js",
-    "release": "node ./scripts/release.js"
+    "release": "npm run build && node ./scripts/release.js"
   },
   "files": [
     "build"
