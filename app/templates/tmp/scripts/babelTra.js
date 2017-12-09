@@ -49,12 +49,12 @@ const main = () => {
 
   //babelTransform('./src/index.js');
   //console.log( process.cwd())
-  fs.remove('build', err => {
+  fs.remove('app', err => {
     if (err) return console.error(err)
 
     console.log('success!')
     fs.copySync('src', 'app')
-    glob("build/**/*.js", {}, function (er, files) {
+    glob("app/**/*.js", {}, function (er, files) {
       console.log(files);
       if(files.length > 0){
         files.forEach((item) =>{

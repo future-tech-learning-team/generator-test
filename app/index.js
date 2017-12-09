@@ -110,7 +110,7 @@ module.exports = class extends Generator {
     //}
     const packageObj = fs.readJsonSync(this.templatePath(fileName))
     packageObj.name=template.appname
-    console.log(packageObj)
+    //console.log(packageObj)
     fs.writeFileSync(this.destinationPath(fileName), JSON.stringify(packageObj));
 /*    fs.copySync(
       this.templatePath(fileName),
