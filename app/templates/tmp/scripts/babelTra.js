@@ -53,7 +53,7 @@ const main = () => {
     if (err) return console.error(err)
 
     console.log('success!')
-    fs.copySync('src', 'build')
+    fs.copySync('src', 'app')
     glob("build/**/*.js", {}, function (er, files) {
       console.log(files);
       if(files.length > 0){

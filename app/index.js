@@ -70,10 +70,10 @@ module.exports = class extends Generator {
   writing(){
     switch (this.projectType){
       case 'node':
-        this._private_copyFile('pc.txt',{title: 'Templating with Yeoman pc.txt' });
+        //this._private_copyFile('pc.txt',{title: 'Templating with Yeoman pc.txt' });
         break;
       case 'app':
-        this._private_copyFile('app.txt',{title: 'Templating with Yeoman app.txt' });
+        //this._private_copyFile('app.txt',{title: 'Templating with Yeoman app.txt' });
         break;
       default:
         break;
@@ -86,6 +86,7 @@ module.exports = class extends Generator {
       console.error(err)
     }
     this._private_copyFile('package.json',{appname: this.appName});
+    this._private_copyFile('package-lock.json',{appname: this.appName});
     //this._private_copyFile('package.json',{appname: this.options.inputname});
 
    /*
@@ -93,7 +94,7 @@ module.exports = class extends Generator {
     this._private_copyFile('.babelrc',{}); // Babel 转码配置
     this._private_copyFile('./scripts/babelSrc.sh',{});
     this._private_copyFile('./scripts/babelTra.js',{});
-    //this._private_copyFile('./build/',{});
+    //this._private_copyFile('./app/',{});
     this._private_copyFile('./src/index.js',{});
     this._private_copyFile('./src/pages/',{}); // 先建目录
     this._private_copyFile('./src/pages/home.js',{}); */
@@ -107,10 +108,15 @@ module.exports = class extends Generator {
     //if(this.fs.exists(this.destinationPath(fileName))){
     //  this.fs.delete(this.destinationPath(fileName))
     //}
-    fs.copySync(
+    const packageObj = fs.readJsonSync(this.templatePath(fileName))
+    packageObj.name=template.appname
+    console.log(packageObj)
+    fs.writeFileSync(this.destinationPath(fileName), JSON.stringify(packageObj));
+/*    fs.copySync(
       this.templatePath(fileName),
       this.destinationPath(fileName),
-    );
+      template
+    );*/
 
   }
 

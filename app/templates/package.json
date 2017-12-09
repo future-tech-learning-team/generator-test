@@ -9,7 +9,7 @@
     "release": "npm run build && node ./scripts/release.js"
   },
   "files": [
-    "build"
+    "app"
   ],
   "author": "",
   "license": "MIT",
