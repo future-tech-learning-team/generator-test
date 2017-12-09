@@ -69,7 +69,7 @@ module.exports = class extends Generator {
 
   writing(){
     switch (this.projectType){
-      case 'pc':
+      case 'node':
         this._private_copyFile('pc.txt',{title: 'Templating with Yeoman pc.txt' });
         break;
       case 'app':
