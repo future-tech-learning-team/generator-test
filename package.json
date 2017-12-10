@@ -8,11 +8,17 @@
     "email": "product188@126.com",
     "url": ""
   },
-  "files": ["generators"],
+  "files": [
+    "generators"
+  ],
   "main": "generators/index.js",
-  "keywords": ["", "yeoman-generator"],
+  "keywords": [
+    "",
+    "yeoman-generator"
+  ],
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
     "eslint-config-prettier": "^2.4.0",
@@ -46,11 +52,20 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"],
-    "*.json": ["prettier --write", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "eslintConfig": {
-    "extends": ["xo", "prettier"],
+    "extends": [
+      "xo",
+      "prettier"
+    ],
     "env": {
       "jest": true,
       "node": true
@@ -64,7 +79,9 @@
         }
       ]
     },
-    "plugins": ["prettier"]
+    "plugins": [
+      "prettier"
+    ]
   },
   "repository": "product188/generator-mypure",
   "license": "Apache-2.0"

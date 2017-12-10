@@ -1,6 +1,8 @@
 /**
  * Created by chenxuhua on 2017/11/26.
  */
+require('babel-polyfill');
+require("babel-register");
 const babel = require("babel-core")
 const path=require("path")
 const fs=require("fs")
@@ -32,5 +34,8 @@ function babelAll(filepath) {
   }
 };
 babelAll(path.resolve(__dirname,"../page/"))
+
+
+export var name="陈叙华"
 
 
