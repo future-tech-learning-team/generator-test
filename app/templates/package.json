@@ -1,17 +1,23 @@
 {
-  "name": "pure",
+  "name": "pure-testgen",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build-cli": "babel src -d build",
-    "build": "node src/scripts/index.js"
+    "build": "node src/scripts/index.js",
+    "release": "node src/scripts/release.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "execa": "^0.8.0",
     "format-date": "^1.0.0",
+    "fs-extra": "^4.0.3",
     "git-branch": "^1.0.0",
+    "glob": "^7.1.2",
+    "inquirer": "^4.0.1",
+    "semver": "^5.4.1",
     "url-param-object": "^1.0.2"
   },
   "devDependencies": {

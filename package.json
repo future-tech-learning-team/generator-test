@@ -8,9 +8,7 @@
     "email": "product188@126.com",
     "url": ""
   },
-  "files": [
-    "generators"
-  ],
+  "files": [],
   "main": "generators/index.js",
   "keywords": [
     "",
@@ -45,9 +43,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  },
-  "scripts": {
-    "dopublish": "node scripts/publish.js"
   },
   "lint-staged": {
     "*.js": [

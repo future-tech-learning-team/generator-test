@@ -24,9 +24,25 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
-         this.templatePath('package.json'),
-         this.destinationPath('package.json')
+         this.templatePath('.babelrc'),
+         this.destinationPath('.babelrc')
     );
+      this.fs.copy(
+          this.templatePath('.eslintignore'),
+          this.destinationPath('.eslintignore')
+      );
+      this.fs.copy(
+          this.templatePath('.gitignore'),
+          this.destinationPath('.gitignore')
+      );
+      this.fs.copy(
+          this.templatePath('package.json'),
+          this.destinationPath('package.json')
+      );
+      this.fs.copy(
+          this.templatePath('package-lock.json'),
+          this.destinationPath('package-lock.json')
+      );
 
      this.fs.copyTpl(
           this.templatePath('index.html'),
