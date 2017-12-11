@@ -11,7 +11,11 @@ const semver = require('semver');
 const inquirer = require('inquirer');
 const fs=require("fs");
 
-
+var detectionFileStatus=execa.shellSync('git diff');
+if(detectionFileStatus.stdout){
+    console.log("有未提交的内容，请先行处理");
+    return;
+}
 
 if(branchName !== 'master'){
     const newVersion=semver.inc(package.version, 'prerelease', 'beta')
