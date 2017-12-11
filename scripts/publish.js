@@ -8,17 +8,26 @@ const branch = require('git-branch');
 const branchName=branch.sync();
 console.log(branchName);
 const semver = require('semver');
-var inquirer = require('inquirer');
+const inquirer = require('inquirer');
+const fs=require("fs");
+
 
 
 if(branchName !== 'master'){
-    var newVersion=semver.inc(package.version, 'prerelease', 'beta')
-    console.log("预发布版本version=",newVersion);
+    const newVersion=semver.inc(package.version, 'prerelease', 'beta')
+    package.version=newVersion;
+    console.log("newVersion=",newVersion);
+    fs.writeFileSync("package.json", JSON.stringify(package,null, 2),"utf8");
+    execa.shellSync('git commit -m "'+package.version+'"');
+    execa.shellSync('git push');
+    console.log("到这里");
+  //  git commit + git push
+
 }
 else{
-    var major=semver.major(package.version);
-    var minor=semver.minor(package.version);
-    var patch=semver.patch(package.version);
+    const major=semver.major(package.version);
+    const minor=semver.minor(package.version);
+    const patch=semver.patch(package.version);
     inquirer.prompt([{
         type    : 'list',
         name    : 'publishVersion',
