@@ -26,8 +26,8 @@ if(branchName !== 'master'){
     execa.shellSync('git commit -m "'+package.version+'"');
     execa.shellSync('git push');
     console.log("非master分支执行完成");
-  //  git commit + git push
-
+    execa.shell("npm publish")
+    console.log("发布成功")
 }
 else{
     const major=semver.major(package.version);
@@ -43,12 +43,12 @@ else{
         console.log('选择发布版本', answers.publishVersion);
         execa.shell("npm version "+answers.publishVersion+" && git  push —follow-tags")
         console.log("master分支执行完成");
-        // this.projectType = answers.projectType;
+        execa.shell("npm publish")
+        console.log("发布成功")
     });
 }
 
-execa.shell("npm publish")
-console.log("发布成功")
+
 
 
 
