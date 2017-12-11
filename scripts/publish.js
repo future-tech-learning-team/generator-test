@@ -20,7 +20,7 @@ if(branchName !== 'master'){
     fs.writeFileSync("package.json", JSON.stringify(package,null, 2),"utf8");
     execa.shellSync('git add *');
     execa.shellSync('git commit -m "aaaa"');
-    //execa.shellSync('git push');
+    execa.shellSync('git push');
     console.log("到这里");
   //  git commit + git push
 
