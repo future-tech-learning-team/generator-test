@@ -19,9 +19,9 @@ if(branchName !== 'master'){
     console.log("newVersion=",newVersion);
     fs.writeFileSync("package.json", JSON.stringify(package,null, 2),"utf8");
     execa.shellSync('git add *');
-    execa.shellSync('git commit -m "aaaa"');
+    execa.shellSync('git commit -m "'+package.version+'"');
     execa.shellSync('git push');
-    console.log("到这里");
+    console.log("非master分支执行完成");
   //  git commit + git push
 
 }
@@ -38,6 +38,7 @@ else{
     }]).then((answers) => {
         console.log('选择发布版本', answers.publishVersion);
         execa.shell("npm version "+answers.publishVersion+" && git  push —follow-tags")
+        console.log("master分支执行完成");
         // this.projectType = answers.projectType;
     });
 }
