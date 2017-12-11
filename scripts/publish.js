@@ -18,8 +18,9 @@ if(branchName !== 'master'){
     package.version=newVersion;
     console.log("newVersion=",newVersion);
     fs.writeFileSync("package.json", JSON.stringify(package,null, 2),"utf8");
-    execa.shellSync('git commit -m "'+package.version+'"');
-    execa.shellSync('git push');
+    execa.shellSync('git add *');
+    execa.shellSync('git commit -m "aaaa"');
+    //execa.shellSync('git push');
     console.log("到这里");
   //  git commit + git push
 
