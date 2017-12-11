@@ -8,19 +8,12 @@ const branch = require('git-branch');
 const branchName=branch.sync();
 console.log(branchName);
 const semver = require('semver');
-
-var newVersion=semver.inc('1.2.3', 'patch')
-console.log("str=",newVersion);
-
-// major(v): Return the major version number.
-// minor(v): Return the minor version number.
-// patch(v): Return the patch version number.
+var inquirer = require('inquirer');
 
 
-var versionTest=/^\d\.\d\.\d-beta\.\d$/;
 if(branchName !== 'master'){
     var newVersion=semver.inc(package.version, 'prerelease', 'beta')
-    console.log("预发布版本version=",package.version);
+    console.log("预发布版本version=",newVersion);
 }
 else{
     var major=semver.major(package.version);
@@ -42,7 +35,7 @@ else{
 execa.shell("npm publish")
 console.log("发布成功")
 
-var inquirer = require('inquirer');
+
 
 
 
