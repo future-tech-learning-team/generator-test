@@ -29,6 +29,7 @@ const main = async () => {
 
   console.log('test git Head');
   const status = await execa.shell('git status --s');
+  //const status = await execa.shell('git status -uno --s');
   console.log(status)
 
   if (status.stdout) {
