@@ -18,7 +18,7 @@ import inquirer from 'inquirer';
  */
 const main = async () => {
 
-  let msg = ''
+  let msg = '';
   const result = await execa.shell('git symbolic-ref --short -q HEAD');
   //console.log(result);
   if (!result.failed) {
@@ -28,7 +28,7 @@ const main = async () => {
   console.log('test git Head');
   //const status = await execa.shell('git status --s');
   const status = await execa.shell('git status -uno --s');
-  console.log(status)
+  console.log(status);
 
   if (status.stdout) {
     console.error('还有未处理文件，请处理后再发布');
@@ -53,7 +53,7 @@ const main = async () => {
     ])
     console.log('choice:', choice);
 
-    let version = ''
+    let version = '';
     switch (choice.version) {
 
       case 'alpha':
@@ -92,7 +92,7 @@ const main = async () => {
 const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
   const packageObj = fs.readJsonSync(fileName)
-  packageObj.version = version
+  packageObj.version = version;
   fs.writeFileSync(fileName, JSON.stringify(packageObj,null, '\t'));
   //fs.writeFileSync(fileName, JSON.stringify(packageObj));
 }
@@ -104,4 +104,4 @@ const validate = (result) => {
   }
 }
 
-main()
+main();
