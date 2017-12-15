@@ -28,7 +28,7 @@ const main = async () => {
     console.log('还有未处理文件，请处理后再发布');
     process.exit(0);
   }
-
+  console.log('执行shell检测分支');
   let msg = ''
   const result = await execa.shell('git symbolic-ref --short -q HEAD');
   //console.log(result);
@@ -42,7 +42,7 @@ const main = async () => {
       {
         type: 'list',
         name: 'version',
-        message: '你希望发布哪种测试版本?',
+        message: '不是主分支，只能提交测试版本,请选择',
         choices: ['Beta', 'Alpha', 'Gamma', 'Rc'],
         default: 'Beta',
         filter: (val) => {
@@ -79,7 +79,7 @@ const main = async () => {
      }else if(packageJS.version.includes('rc')){
      version = semver.inc(packageJS.version, 'prerelease', 'rc');
      }*/
-
+    console.log('已修改版本号为:', version);
     //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
     editPackageJSON('../package.json', version);
     editPackageJSON('../package=lock.json', version);
