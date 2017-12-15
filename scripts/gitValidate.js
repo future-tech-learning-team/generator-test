@@ -25,7 +25,7 @@ const main = async () => {
   console.log(status)
 
   if (status.stdout) {
-    console.log('还有未处理文件，请处理后再发布');
+    console.error('还有未处理文件，请处理后再发布');
     process.exit(0);
   }
   console.log('执行shell检测分支');
@@ -82,9 +82,17 @@ const main = async () => {
     //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
     editPackageJSON('package.json', version);
     editPackageJSON('package-lock.json', version);
-    await execa.shell('git commit -m "chore：修改版本号"');
-    await execa.shell(`git push origin ${msg}`);
-    //await execa.shell(`npm version ${version}`);
+    const commitResult = await execa.shell('git commit -m "chore：修改版本号"');
+    if (!commitResult.failed) {
+       console.error(commitResult.stdout);
+      process.exit(0);
+    }
+    const execaResult =await execa.shell(`git push origin ${msg}`);
+
+    if (!execaResult.failed) {
+      console.error(execaResult.stdout);
+      process.exit(0);
+    }
     console.log('已修改版本号为:', version);
     //await execa.shell('npm publish');
     //console.log(version,'已发布');
