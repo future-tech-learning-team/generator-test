@@ -3,10 +3,15 @@
  */
 
 require('babel-register')({
-  presets: ["env"],
+  presets: [
+    ["env",{
+    targets: {
+      node: "current"
+    }
+  }]
+  ],
   plugins: [
-    "transform-runtime",
-    "transform-decorators-legacy"
+    "transform-runtime"
   ]
 });
 require('./gitValidate.js');
