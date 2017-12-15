@@ -129,7 +129,7 @@ const editPackageJSON = (fileName, version) => {
 }
 
 const validate = (result) => {
-  if (!result.failed) {
+  if (result.failed) {
     console.error(result.stdout);
     process.exit(0);
   }
