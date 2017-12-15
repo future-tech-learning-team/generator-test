@@ -18,29 +18,31 @@ import inquirer from 'inquirer';
  */
 const main = async () => {
 
-  console.log('test git Head');
-  const status = await execa.shell('git status');
-  console.log(status)
-
-  if(status.stdout){
-    console.log('还有未处理文件，请处理后再发布');
-    process.exit(0);
-  }
-
   let msg = ''
   const result = await execa.shell('git symbolic-ref --short -q HEAD');
   //console.log(result);
   if (!result.failed) {
     msg = result.stdout
   }
+
+  console.log('test git Head');
+  const status = await execa.shell('git status --s');
+  console.log(status)
+
+  if (status.stdout) {
+    console.error('还有未处理文件，请处理后再发布');
+    process.exit(0);
+  }
+  console.log('执行shell检测分支');
+
   //=> 'unicorns'
   console.log('msg', msg);
-  if (msg && msg !== 'master' && (semver.valid(packageJS.version) || semver.satisfies(packageJS.version,'*'))) {
-    const choice = await inquirer.prompt([
+  if (msg && msg !== 'master' && (semver.valid(packageJS.version) || semver.satisfies(packageJS.version, '*'))) {
+    let choice = await inquirer.prompt([
       {
         type: 'list',
-        name: '测试版本',
-        message: '你希望发布哪种测试版本?',
+        name: 'version',
+        message: '不是主分支，只能提交测试版本,请选择',
         choices: ['Beta', 'Alpha', 'Gamma', 'Rc'],
         default: 'Beta',
         filter: (val) => {
@@ -48,26 +50,35 @@ const main = async () => {
         }
       }
     ])
-    console.log('choice:',choice);
+    console.log('choice:', choice);
 
-    let version = semver.inc(packageJS.version, 'prerelease', 'beta');
-    if(packageJS.version.includes('alpha')){
-      version = semver.inc(packageJS.version, 'prerelease', 'alpha');
+    let version = ''
+    switch (choice.version) {
 
-    }else if(packageJS.version.includes('gamma')){
-      version = semver.inc(packageJS.version, 'prerelease', 'gamma');
-    }else if(packageJS.version.includes('rc')){
-      version = semver.inc(packageJS.version, 'prerelease', 'rc');
+      case 'alpha':
+        version = semver.inc(packageJS.version, 'prerelease', 'alpha');
+        break;
+      case 'gamma':
+        version = semver.inc(packageJS.version, 'prerelease', 'gamma');
+        break;
+      case 'rc':
+        version = semver.inc(packageJS.version, 'prerelease', 'rc');
+        break;
+      default :
+        version = semver.inc(packageJS.version, 'prerelease', 'beta');
+        break;
     }
-
-    //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
-    editPackageJSON('../package.json',version);
-    editPackageJSON('../package=lock.json',version);
-    await execa.shell('git commit');
-    await execa.shell('git push');
-    //await execa.shell(`npm version ${version}`);
+    editPackageJSON('package.json', version);
+    editPackageJSON('package-lock.json', version);
+    const addResult = await execa.shell('git add .');
+    validate(addResult);
+    const commitResult = await execa.shell('git commit -m "chore：修改版本号"');
+    validate(commitResult);
+    const execaResult =await execa.shell(`git push origin ${msg}`);
+    validate(execaResult);
     console.log('已修改版本号为:', version);
-    await execa.shell('npm publish');
+    const publishResult  = await execa.shell('npm publish');
+    validate(publishResult);
     console.log(version,'已发布');
   } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
     await execa.shell('npm publish');
@@ -81,7 +92,15 @@ const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
   const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version
-  fs.writeFileSync(fileName, JSON.stringify(packageObj));
+  fs.writeFileSync(fileName, JSON.stringify(packageObj,null, '\t'));
+  //fs.writeFileSync(fileName, JSON.stringify(packageObj));
+}
+
+const validate = (result) => {
+  if (result.failed) {
+    console.error(result.stdout);
+    process.exit(0);
+  }
 }
 
 main()

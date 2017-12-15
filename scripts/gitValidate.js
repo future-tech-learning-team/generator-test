@@ -80,7 +80,7 @@ const main = async () => {
      }else if(packageJS.version.includes('rc')){
      version = semver.inc(packageJS.version, 'prerelease', 'rc');
      }*/
-    console.log('已修改版本号为:', version);
+
     //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
     editPackageJSON('package.json', version);
     editPackageJSON('package-lock.json', version);
@@ -91,8 +91,9 @@ const main = async () => {
     const execaResult =await execa.shell(`git push origin ${msg}`);
     validate(execaResult);
     console.log('已修改版本号为:', version);
-    //await execa.shell('npm publish');
-    //console.log(version,'已发布');
+    const publishResult  = await execa.shell('npm publish');
+    validate(publishResult);
+    console.log(version,'已发布');
   } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
     await execa.shell('npm publish');
     console.log(packageJS.version, '已发布');
