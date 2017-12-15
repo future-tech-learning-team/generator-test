@@ -21,7 +21,7 @@ import inquirer from 'inquirer';
 const main = async () => {
 
   console.log('test git Head');
-  const status = await execa.shell('git status');
+  const status = await execa.shell('git diff');
   console.log(status)
 
   if(status.stdout){
