@@ -80,8 +80,8 @@ const main = async () => {
      }*/
     console.log('已修改版本号为:', version);
     //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
-    editPackageJSON('../package.json', version);
-    editPackageJSON('../package=lock.json', version);
+    editPackageJSON('package.json', version);
+    editPackageJSON('package-lock.json', version);
     await execa.shell('git commit');
     await execa.shell('git push');
     //await execa.shell(`npm version ${version}`);
@@ -115,13 +115,13 @@ const main = async () => {
 
 const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
-  const packageObj = fs.readJsonSync(setPath(fileName))
+  const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version
-  fs.writeFileSync(setPath(fileName), JSON.stringify(packageObj));
+  fs.writeFileSync(fileName, JSON.stringify(packageObj));
 }
 
 const setPath = (src) => {
-  let filepath = path.join.apply(path, src);
+  let filepath = path.join.apply(__dirname, src);
   if (!path.isAbsolute(filepath)) {
     filepath = path.join(this.sourceRoot(), filepath);
   }
