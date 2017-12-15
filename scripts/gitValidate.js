@@ -5,7 +5,7 @@
 import "babel-polyfill";
 //import fs from 'fs';
 import fs from 'fs-extra';
-//import path from 'path';
+import path from 'path';
 import semver from 'semver';
 import packageJS from "../package.json";   // 获取package.json
 import execa from 'execa';
