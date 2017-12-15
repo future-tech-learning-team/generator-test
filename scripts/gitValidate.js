@@ -51,7 +51,6 @@ const main = async () => {
       }
     ])
     console.log('choice:', choice);
-    choice = JSON.parse(choice)
 
     let version = ''
     switch (choice.version) {
