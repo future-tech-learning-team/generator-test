@@ -116,9 +116,17 @@ const main = async () => {
 
 const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
-  const packageObj = fs.readJsonSync(fileName)
+  const packageObj = fs.readJsonSync(setPath(fileName))
   packageObj.version = version
-  fs.writeFileSync(fileName, JSON.stringify(packageObj));
+  fs.writeFileSync(setPath(fileName), JSON.stringify(packageObj));
+}
+
+const setPath = (src) => {
+  let filepath = path.join.apply(path, src);
+  if (!path.isAbsolute(filepath)) {
+    filepath = path.join(this.sourceRoot(), filepath);
+  }
+  return filepath;
 }
 
 /*const branch = (cb) => {
