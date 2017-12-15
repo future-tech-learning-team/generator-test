@@ -5,7 +5,7 @@
 import "babel-polyfill";
 //import fs from 'fs';
 import fs from 'fs-extra';
-import path from 'path';
+//import path from 'path';
 import semver from 'semver';
 import packageJS from "../package.json";   // 获取package.json
 import execa from 'execa';
@@ -82,8 +82,8 @@ const main = async () => {
     //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
     editPackageJSON('package.json', version);
     editPackageJSON('package-lock.json', version);
-    await execa.shell('git commit');
-    await execa.shell('git push');
+    await execa.shell('git commit -m "chore：修改版本号"');
+    await execa.shell(`git push origin ${msg}`);
     //await execa.shell(`npm version ${version}`);
     console.log('已修改版本号为:', version);
     //await execa.shell('npm publish');
@@ -118,14 +118,6 @@ const editPackageJSON = (fileName, version) => {
   const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version
   fs.writeFileSync(fileName, JSON.stringify(packageObj));
-}
-
-const setPath = (src) => {
-  let filepath = path.join.apply(__dirname, src);
-  if (!path.isAbsolute(filepath)) {
-    filepath = path.join(this.sourceRoot(), filepath);
-  }
-  return filepath;
 }
 
 /*const branch = (cb) => {
