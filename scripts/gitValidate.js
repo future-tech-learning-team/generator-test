@@ -21,7 +21,7 @@ import inquirer from 'inquirer';
 const main = async () => {
 
   console.log('test git Head');
-  const status = await execa.shell('git diff');
+  const status = await execa.shell('git diff master...');
   console.log(status)
 
   if (status.stdout) {
@@ -82,17 +82,12 @@ const main = async () => {
     //console.log('非master分支，只能提交测试版本(beta、alpha、gamma、rc)');
     editPackageJSON('package.json', version);
     editPackageJSON('package-lock.json', version);
+    const addResult = await execa.shell('git add .');
+    validate(addResult);
     const commitResult = await execa.shell('git commit -m "chore：修改版本号"');
-    if (!commitResult.failed) {
-       console.error(commitResult.stdout);
-      process.exit(0);
-    }
+    validate(commitResult);
     const execaResult =await execa.shell(`git push origin ${msg}`);
-
-    if (!execaResult.failed) {
-      console.error(execaResult.stdout);
-      process.exit(0);
-    }
+    validate(execaResult);
     console.log('已修改版本号为:', version);
     //await execa.shell('npm publish');
     //console.log(version,'已发布');
@@ -126,6 +121,13 @@ const editPackageJSON = (fileName, version) => {
   const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version
   fs.writeFileSync(fileName, JSON.stringify(packageObj));
+}
+
+const validate = (result) => {
+  if (!result.failed) {
+    console.error(result.stdout);
+    process.exit(0);
+  }
 }
 
 /*const branch = (cb) => {
