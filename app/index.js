@@ -125,9 +125,9 @@ module.exports = class extends Generator {
 
   _private_copyFile(fileName, template) { // 私有方法，不会自动执行
     console.log('copyFile');
-    const packageObj = fs.readJsonSync(this.templatePath(fileName))
-    packageObj.name = template.appname
-    fs.writeFileSync(this.destinationPath(fileName), JSON.stringify(packageObj));
+    const packageObj = fs.readJsonSync(this.templatePath(fileName));
+    packageObj.name = template.appname;
+    fs.writeFileSync(this.destinationPath(fileName), JSON.stringify(packageObj,null, '\t'));
   }
 
 };
