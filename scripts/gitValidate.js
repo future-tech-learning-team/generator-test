@@ -125,7 +125,7 @@ const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
   const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version
-  fs.writeFileSync(fileName, JSON.stringify(packageObj));
+  fs.writeFileSync(fileName, JSON.stringify(packageObj,null, '\t'));
 }
 
 const validate = (result) => {
