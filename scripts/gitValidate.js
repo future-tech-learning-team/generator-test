@@ -20,8 +20,15 @@ import inquirer from 'inquirer';
  */
 const main = async () => {
 
+  let msg = ''
+  const result = await execa.shell('git symbolic-ref --short -q HEAD');
+  //console.log(result);
+  if (!result.failed) {
+    msg = result.stdout
+  }
+
   console.log('test git Head');
-  const status = await execa.shell('git diff master...');
+  const status = await execa.shell('git diff');
   console.log(status)
 
   if (status.stdout) {
@@ -29,12 +36,7 @@ const main = async () => {
     process.exit(0);
   }
   console.log('执行shell检测分支');
-  let msg = ''
-  const result = await execa.shell('git symbolic-ref --short -q HEAD');
-  //console.log(result);
-  if (!result.failed) {
-    msg = result.stdout
-  }
+
   //=> 'unicorns'
   console.log('msg', msg);
   if (msg && msg !== 'master' && (semver.valid(packageJS.version) || semver.satisfies(packageJS.version, '*'))) {
