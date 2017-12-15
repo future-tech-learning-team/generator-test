@@ -104,7 +104,6 @@ module.exports = class extends Generator {
       console.error(err)
     }
     this._private_copyFile('package.json', { appname: this.appName });
-    this._private_copyFile('package-lock.json', { appname: this.appName });
 
     process.exit(0) // 正常结束
   }
