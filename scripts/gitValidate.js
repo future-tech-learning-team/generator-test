@@ -85,13 +85,10 @@ const main = async () => {
     editPackageJSON('package.json', version);
     editPackageJSON('package-lock.json', version);
     const addResult = await execa.shell('git add .');
-    console.log(addResult)
     validate(addResult);
     const commitResult = await execa.shell('git commit -m "chore：修改版本号"');
-    console.log(commitResult)
     validate(commitResult);
     const execaResult =await execa.shell(`git push origin ${msg}`);
-    console.log(execaResult)
     validate(execaResult);
     console.log('已修改版本号为:', version);
     //await execa.shell('npm publish');
@@ -125,7 +122,8 @@ const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
   const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version
-  fs.writeFileSync(fileName, JSON.stringify(packageObj,null, '\t'));
+  //fs.writeFileSync(fileName, JSON.stringify(packageObj,null, '\t'));
+  fs.writeFileSync(fileName, JSON.stringify(packageObj));
 }
 
 const validate = (result) => {
