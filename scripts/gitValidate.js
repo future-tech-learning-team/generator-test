@@ -69,8 +69,8 @@ const main = async () => {
      await execa.shell('git push');
     //await execa.shell(`npm version ${version}`);
     console.log('已修改版本号为:', version);
-    await execa.shell('npm publish');
-    console.log(version,'已发布');
+    //await execa.shell('npm publish');
+    //console.log(version,'已发布');
   } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
     await execa.shell('npm publish');
     console.log(packageJS.version, '已发布');
