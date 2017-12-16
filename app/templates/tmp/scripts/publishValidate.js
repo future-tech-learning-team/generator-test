@@ -82,7 +82,8 @@ const main = async () => {
     validate(publishResult);
     console.log(version,'已发布');
   } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
-    await execa.shell('npm publish');
+    const result = await execa.shell('npm publish');
+    validate(result);
     console.log(packageJS.version, '已发布');
   } else {
     console.log('请修改版本号');
