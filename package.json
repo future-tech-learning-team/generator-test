@@ -1,5 +1,5 @@
 {
-	"name": "generator-syj-babel-test",
+	"name": "generator-syj-componet-factory",
 	"version": "1.0.8-beta.3",
 	"description": "babel generator",
 	"main": "index.js",
