@@ -78,7 +78,7 @@ const main = async () => {
     const publishResult = await execa.shell('npm publish');
     validate(publishResult);
     console.log(version, '已发布');
-  } else if (msg && msg !== 'master' && semver.satisfies(packageJS.version, '*')) {
+  } else if (msg && msg !== 'master' ) {
     /**
      *
      1.15.2对应就是MAJOR,MINOR.PATCH：1是marjor version；15是minor version；2是patch version
