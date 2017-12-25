@@ -1,6 +1,6 @@
 {
 	"name": "generator-syj-componet-factory",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"description": "babel generator",
 	"main": "index.js",
 	"scripts": {
