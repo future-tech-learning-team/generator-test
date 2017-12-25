@@ -20,13 +20,11 @@ const main = async () => {
 
   let msg = '';
   const result = await execa.shell('git symbolic-ref --short -q HEAD');
-  //console.log(result);
   if (!result.failed) {
     msg = result.stdout
   }
 
   console.log('test git Head');
-  //const status = await execa.shell('git status --s');
   const status = await execa.shell('git status -uno --s');
   console.log(status);
 
@@ -36,9 +34,8 @@ const main = async () => {
   }
   console.log('执行shell检测分支');
 
-  //=> 'unicorns'
-  console.log('msg', msg);
-  if (msg && msg !== 'master' && (semver.valid(packageJS.version) || semver.satisfies(packageJS.version, '*'))) {
+  if (msg && msg !== 'master' &&
+    (semver.valid(packageJS.version) || semver.satisfies(packageJS.version, '*'))) {
     let choice = await inquirer.prompt([
       {
         type: 'list',
@@ -50,12 +47,10 @@ const main = async () => {
           return val.toLowerCase();
         }
       }
-    ])
-    console.log('choice:', choice);
+    ]);
 
     let version = '';
     switch (choice.version) {
-
       case 'alpha':
         version = semver.inc(packageJS.version, 'prerelease', 'alpha');
         break;
@@ -75,13 +70,60 @@ const main = async () => {
     validate(addResult);
     const commitResult = await execa.shell('git commit -m "chore：修改版本号"');
     validate(commitResult);
-    const execaResult =await execa.shell(`git push origin ${msg}`);
+    const execaResult = await execa.shell(`git push origin ${msg}`);
     validate(execaResult);
     console.log('已修改版本号为:', version);
-    const publishResult  = await execa.shell('npm publish');
+    const publishResult = await execa.shell('npm publish');
     validate(publishResult);
-    console.log(version,'已发布');
+    console.log(version, '已发布');
   } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
+    /**
+     *
+     1.15.2对应就是MAJOR,MINOR.PATCH：1是marjor version；15是minor version；2是patch version
+     MAJOR：有一个不可以和上个版本兼容的大更改。
+
+     MINOR：增加了新的功能，并且可以向后兼容。
+
+     PATCH：修复了bug，并且可以向后兼容。
+     */
+    const MAJOR = '有一个不可以和上个版本兼容的大更改';
+    const MINOR = '增加了新的功能，并且可以向后兼容';
+    const PATCH = '修复了bug，并且可以向后兼容';
+    let choice = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'version',
+        message: '当前分支是主分支，请选择修改方式',
+        choices: [
+          MAJOR,
+          MINOR,
+          PATCH
+        ],
+        default: 'Beta',
+        filter: (val) => {
+          return val.toLowerCase();
+        }
+      }
+    ]);
+    let version = '';
+    switch (choice.version) {
+      case MAJOR:
+        version = semver.inc(packageJS.version, 'release', 'major');
+        break;
+      case MINOR:
+        version = semver.inc(packageJS.version, 'release', 'minor');
+        break;
+      case PATCH:
+        version = semver.inc(packageJS.version, 'release', 'patch');
+        break;
+      default:
+        break;
+    }
+    console.log('version:',version)
+    const versionResult = await execa.shell(`npm version ${version}`);
+    validate(versionResult);
+    const pushResult = await execa.shell('git  push --follow -tag');
+    validate(pushResult);
     const result = await execa.shell('npm publish');
     validate(result);
     console.log(packageJS.version, '已发布');
@@ -94,8 +136,7 @@ const editPackageJSON = (fileName, version) => {
   console.log('copyFile');
   const packageObj = fs.readJsonSync(fileName)
   packageObj.version = version;
-  fs.writeFileSync(fileName, JSON.stringify(packageObj,null, '\t'));
-  //fs.writeFileSync(fileName, JSON.stringify(packageObj));
+  fs.writeFileSync(fileName, JSON.stringify(packageObj, null, '\t'));
 }
 
 const validate = (result) => {
