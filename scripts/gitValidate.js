@@ -110,13 +110,13 @@ const main = async () => {
     let version = '';
     switch (choice.version) {
       case MAJOR:
-        version = semver.inc(packageJS.version, 'release', 'major');
+        version = semver.inc(packageJS.version, 'major');
         break;
       case MINOR:
-        version = semver.inc(packageJS.version, 'release', 'minor');
+        version = semver.inc(packageJS.version, 'minor');
         break;
       case PATCH:
-        version = semver.inc(packageJS.version, 'release', 'patch');
+        version = semver.inc(packageJS.version, 'patch');
         break;
       default:
         break;
