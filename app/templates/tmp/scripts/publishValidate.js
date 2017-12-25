@@ -76,7 +76,7 @@ const main = async () => {
     const publishResult = await execa.shell('npm publish');
     validate(publishResult);
     console.log(version, '已发布');
-  } else if (msg && msg === 'master' && semver.satisfies(packageJS.version, '*')) {
+  } else if (msg && msg === 'master') {
     /**
      *
      1.15.2对应就是MAJOR,MINOR.PATCH：1是marjor version；15是minor version；2是patch version
@@ -108,25 +108,25 @@ const main = async () => {
     let version = '';
     switch (choice.version) {
       case MAJOR:
-        version = semver.inc(packageJS.version, 'release', 'major');
+        version = semver.inc(packageJS.version, 'major');
         break;
       case MINOR:
-        version = semver.inc(packageJS.version, 'release', 'minor');
+        version = semver.inc(packageJS.version, 'minor');
         break;
       case PATCH:
-        version = semver.inc(packageJS.version, 'release', 'patch');
+        version = semver.inc(packageJS.version, 'patch');
         break;
       default:
         break;
     }
-    console.log('version:',version)
+    console.log('version:', version);
     const versionResult = await execa.shell(`npm version ${version}`);
     validate(versionResult);
-    const pushResult = await execa.shell('git  push --follow -tag');
+    const pushResult = await execa.shell('git push --follow-tags');
     validate(pushResult);
     const result = await execa.shell('npm publish');
     validate(result);
-    console.log(packageJS.version, '已发布');
+    console.log(version, '已发布');
   } else {
     console.log('请修改版本号');
   }
