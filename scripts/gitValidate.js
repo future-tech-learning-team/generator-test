@@ -124,7 +124,7 @@ const main = async () => {
     console.log('version:', version)
     const versionResult = await execa.shell(`npm version ${version}`);
     validate(versionResult);
-    const pushResult = await execa.shell('git  push --follow -tag');
+    const pushResult = await execa.shell('git push --follow-tags');
     validate(pushResult);
     //const result = await execa.shell('npm publish');
     //validate(result);
