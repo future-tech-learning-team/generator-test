@@ -23,10 +23,7 @@ const main = async () => {
   if (!result.failed) {
     msg = result.stdout
   }
-
-  console.log('test git Head');
   const status = await execa.shell('git status --s');
-  console.log(status);
 
   if (status.stdout) {
     console.error('还有未处理文件，请处理后再发布');
@@ -121,7 +118,6 @@ const main = async () => {
       default:
         break;
     }
-    console.log('version:', version)
     const versionResult = await execa.shell(`npm version ${version}`);
     validate(versionResult);
     const pushResult = await execa.shell('git push --follow-tags');
