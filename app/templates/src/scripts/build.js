@@ -3,6 +3,6 @@
  */
 require('babel-polyfill');
 require("babel-register");
-require("./script.js");
+require("./build/index");
 
 

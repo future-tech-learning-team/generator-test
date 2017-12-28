@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-cli": "babel src -d build",
-    "build": "node src/scripts/index.js",
+    "build": "node src/scripts/build.js",
     "release": "node src/scripts/release.js"
   },
   "author": "",

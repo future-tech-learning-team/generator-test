@@ -4,6 +4,6 @@
 
 require('babel-polyfill');
 require("babel-register");
-require("./releasescript.js");
+require("./release/index");
 
 
