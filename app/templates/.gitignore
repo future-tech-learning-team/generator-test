@@ -3,4 +3,4 @@ dist
 .idea
 npm-debug.log
 stats.json
-src/build
+build

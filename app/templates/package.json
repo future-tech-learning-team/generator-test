@@ -7,9 +7,6 @@
     "build": "node src/scripts/build.js",
     "release": "node src/scripts/release.js"
   },
-  "files": [
-    "build/"
-  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
