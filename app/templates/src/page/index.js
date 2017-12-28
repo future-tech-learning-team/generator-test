@@ -1,6 +1,9 @@
 /**
  * Created by chenxuhua on 2017/9/6.
  */
+
+
+
 var obj1={
   name:"a",
   age:"22",

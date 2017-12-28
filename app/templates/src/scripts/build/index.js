@@ -6,7 +6,7 @@ const path = require("path")
 const fse = require('fs-extra')
 const glob = require("glob")
 const sourcePath = path.resolve(__dirname, "../../page/");
-const destinationPath = path.resolve(__dirname, "../../build/");
+const destinationPath = path.resolve(__dirname, "../../../build/");
 
 function transcoder() {
     glob("**/*.js", {
