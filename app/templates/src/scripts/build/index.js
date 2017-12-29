@@ -37,6 +37,7 @@ globPromise("**/*.js", {
         async function  transformCode() {
            let  result=await transformFile(path.resolve(sourcePath, file))
            await fse.outputFile(path.resolve(destinationPath, file), result.code, 'utf8')
+           console.log("文件转码成功", file);
         }
         transformCode();
     })
