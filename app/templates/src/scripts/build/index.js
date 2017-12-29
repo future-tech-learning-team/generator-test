@@ -34,15 +34,11 @@ globPromise("**/*.js", {
     absolute: false
 }).then(function (files) {
     files.forEach(function (file) {
-        transformFile(path.resolve(sourcePath, file)).then(function (result) {
-            fse.outputFile(path.resolve(destinationPath, file), result.code, 'utf8').then(function () {
-                console.log("文件转码成功", file);
-            }).catch(function () {
-                console.log("文件转码失败", error);
-            })
-        }).catch(function (error) {
-            console.log("文件转码失败", error);
-        })
+        async function  transformCode() {
+           let  result=await transformFile(path.resolve(sourcePath, file))
+           await fse.outputFile(path.resolve(destinationPath, file), result.code, 'utf8')
+        }
+        transformCode();
     })
 }).catch(function (error) {
     console.log("构建失败", error);

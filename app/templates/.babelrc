@@ -9,5 +9,6 @@
       }
     ],
     ["stage-0"]
-  ]
+  ],
+  "plugins": ["transform-runtime","transform-async-generator-functions"]
 }
