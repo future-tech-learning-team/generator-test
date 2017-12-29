@@ -11,7 +11,7 @@ module.exports = class extends Generator {
             choices: ['pc', 'mobile'],
             default : "pc"
         }]).then((answers) => {
-            this.log('选择项目类型', answers.projectType);
+            this.log('你所选择的项目类型是', answers.projectType);
             this.projectType = answers.projectType;
         });
     }
