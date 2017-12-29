@@ -5,7 +5,7 @@ const babel = require("babel-core")
 const path = require("path")
 const fse = require('fs-extra')
 const globPromise = require("glob-promise")
-const sourcePath = path.resolve(__dirname, "../../page/")
+const sourcePath = path.resolve(__dirname, "../../module/")
 const destinationPath = path.resolve(__dirname, "../../../build/")
 
 
