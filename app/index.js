@@ -1,7 +1,6 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
-const yosay = require('yosay');
+
 
 module.exports = class extends Generator {
     prompting() {
@@ -39,11 +38,6 @@ module.exports = class extends Generator {
           this.templatePath('package.json'),
           this.destinationPath('package.json')
       );
-      this.fs.copy(
-          this.templatePath('package-lock.json'),
-          this.destinationPath('package-lock.json')
-      );
-
      this.fs.copyTpl(
           this.templatePath('index.html'),
           this.destinationPath("index.html"),
@@ -53,6 +47,6 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.npmInstall();
+    this.yarnInstall();
   }
 };
