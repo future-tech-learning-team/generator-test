@@ -23,7 +23,7 @@ const main = async () => {
   if (!result.failed) {
     msg = result.stdout
   }
-  const status = await execa.shell('git status --s');
+  const status = await execa.shell('git status -s');
 
   if (status.stdout) {
     console.error('还有未处理文件，请处理后再发布');
