@@ -1,49 +1,127 @@
 /**
  * Created by shiyunjie on 17/11/21.
  */
-import 'babel-polyfill'  // 比较重，支持es6  es7 api
+import 'babel-polyfill';  // 比较重，支持es6  es7 api
 
-import express from 'express';
-import superagent from 'superagent';
-import cheerio from 'cheerio';
-import { Console } from 'console';
-/*
-export default {
-  setWidth(w){
-  const maps = ['w', 's', 'y', 'x'];
-   const index = maps.findIndex((item) => { w === item });
-    return index;
+import promise from 'glob-promise';
+import fs from 'fs-extra';
+import path from 'path';
+const acorn = require('acorn');
+
+let ignoreFiles = [];
+let packages = [];
+
+const countFileRows = async (patternInput, optionsInput, ignoreInput, extensionInput) => {
+  return await interate(
+    patternInput,
+    optionsInput,
+    ignoreInput,
+    extensionInput,
+    getFileRows);
 }
-}*/
 
-const app = express();
+const countPackageRequire = async (patternInput, optionsInput, ignoreInput, extensionInput) => {
+  packages = [];
+  await interate(
+    patternInput,
+    optionsInput,
+    ignoreInput,
+    extensionInput,
+    getPackageRequire);
+  return packages;
+}
 
-app.get('/', (req, res, next) => {
-  superagent.get('https://cnodejs.org/')
-    .end( (err, sres) =>{
-    // 常规的错误处理
-    if (err) {
-      return next(err);
+
+/**
+ * 遍历远文件夹，执行todo函数
+ * @param pattern
+ * @param options
+ * @param todo
+ * @returns {Promise.<Array>}
+ */
+const interate = async (patternInput, optionsInput, ignoreInput, extensionInput, todo) => {
+  const extension = extensionInput || '';
+  const pattern = patternInput ?
+    `${patternInput}/**/*${extension}` : `**/*${extension}`;
+  ignoreFiles = ignoreInput || [];
+  const options = optionsInput || { nodir: true };
+
+  console.log('options:', options);
+
+  const files = await promise(
+    pattern,
+    options,
+  );
+  const result = [];
+  if (files.length > 0) {
+    for (let value in files) {
+      const info = await todo(files[value]);
+      console.log('info:', info);
+      if (info) {
+        result.push(info);
+      }
     }
-    // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
-    // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
-    // 剩下就都是 jquery 的内容了
-    const $ = cheerio.load(sres.text);
-    const items = [];
-    $('#topic_list .topic_title').each((idx, element) => {
-      const $element = $(element);
-      items.push({
-        title: $element.attr('title'),
-        href: $element.attr('href')
-      });
-    });
+  }
+  return result;
+}
 
-    res.send(items);
+/**
+ * 统计文件总行数，返回路径和行数
+ * @param file
+ * @returns {Promise.<{path: *, rows: Number}>}
+ */
+const getFileRows = async (file) => {
+  const baseName = path.basename(file);
+
+  if (ignoreFiles.includes(baseName)) {
+    return null
+  }
+  const fileJson = await fs.readFile(file, 'utf8');
+  const rows = fileJson.trim().split('\n').length;
+  console.log(`${baseName}代码行数:`, rows);
+  return {
+    path: file,
+    rows: rows,
+  }
+}
+
+/**
+ * 统计文件引用了多少包
+ * @param file
+ */
+const getPackageRequire = async (file) => {
+
+  const code = await fs.readFile(file, 'utf8');
+  const constast = acorn.parse(code, {
+    sourceType: 'module',
+    ecmaVersion: 6,
+    locations: true,
   });
-});
 
-// 定义好我们 app 的行为之后，让它监听本地的 3000 端口。这里的第二个函数是个回调函数，会在 listen 动作成功后执行。
-app.listen(3000, () => {
-  Console.log('服务已经启动，正在监听3000端口');
-});
+  constast.body.forEach((node) => {
+
+    if (node.type === 'ImportDeclaration') {
+      if (!node.source.value.startsWith('.')) {
+        const packageName = node.source.value;
+        const index = packages.findIndex((item) => item.packageName === packageName);
+        if (index === -1) {
+          packages.push({
+            packageName,
+            num: 1,
+          });
+        } else {
+          packages[index].num++;
+        }
+      }
+    }
+  });
+  return packages;
+}
+
+export default {
+  countFileRows,
+  countPackageRequire,
+}
+
+
 
