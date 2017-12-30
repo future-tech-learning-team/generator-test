@@ -1,20 +1,25 @@
 {
-  "name": "pure-testgen",
-  "version": "1.0.0",
+  "name": "pure-statistics",
+  "version": "6.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "node src/scripts/build.js",
-    "release": "node src/scripts/release.js"
+    "release": "node src/scripts/release.js",
+    "test": "npm run build && node build/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "glob": "^7.1.2",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "fs-extra": "^5.0.0",
+    "fse": "^4.0.0",
+    "glob-promise": "^3.3.0",
     "url-param-object": "^1.0.2"
   },
   "devDependencies": {
-    "babel-plugin-transform-async-generator-functions": "^6.24.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
@@ -22,10 +27,7 @@
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "execa": "^0.8.0",
-    "fs-extra": "^4.0.3",
     "git-branch": "^1.0.0",
-    "glob": "^7.1.2",
-    "glob-promise": "^3.3.0",
     "inquirer": "^4.0.1",
     "semver": "^5.4.1"
   }
